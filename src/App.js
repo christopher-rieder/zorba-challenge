@@ -24,6 +24,14 @@ const MainPage = () => {
     () => fetchData(searchParams).then((res) => res)
   );
 
+  let listings = [];
+  if (data) {
+    listings = data.results
+      .slice(0, 10)
+      .map((houseData) => <ListingCard houseData={houseData} />);
+    listings.splice(2, 0, <div>BANNER GOES HERE</div>);
+  }
+
   return (
     <div className="main-container">
       <div className="left-pane">
@@ -38,15 +46,7 @@ const MainPage = () => {
             <Text>{data.results.length} listings found</Text>
           )}
         </Filters>
-        <div className="results">
-          {isLoading ? (
-            <Spin />
-          ) : (
-            data.results
-              .slice(0, 3)
-              .map((houseData) => <ListingCard houseData={houseData} />)
-          )}
-        </div>
+        <div className="results">{isLoading ? <Spin /> : listings}</div>
       </div>
     </div>
   );

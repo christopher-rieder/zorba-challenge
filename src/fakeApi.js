@@ -8,7 +8,7 @@ const fetchData = (searchParams) => {
     const response = {
       results: data.results.filter((item) => {
         const filterByStatus = statusParam ? item.status === statusParam : true;
-        const filterByQuery = sortParam
+        const filterByQuery = queryParam
           ? item.address.formattedAddress.includes(queryParam)
           : true;
 
