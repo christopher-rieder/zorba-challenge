@@ -1,35 +1,27 @@
 import React from "react";
 import { Typography, Spin } from "antd";
 import "./App.css";
-import data from "./data";
 import ListingCard from "./ListingCard";
 import Filters from "./Filters";
 
 import {
   useQuery,
-  useMutation,
-  useQueryClient,
   QueryClient,
   QueryClientProvider,
 } from "@tanstack/react-query";
 import fetchData from "./fakeApi";
+import { useSearchParams } from "react-router-dom";
 
 const queryClient = new QueryClient();
 
 const { Title, Text } = Typography;
 
-const Wrapper = () => {
-  return (
-    <QueryClientProvider client={queryClient}>
-      <App />
-    </QueryClientProvider>
-  );
-};
+const MainPage = () => {
+  const [searchParams] = useSearchParams();
 
-const App = () => {
-  const { isLoading, error, data, isFetching } = useQuery(
-    ["listingsData"],
-    () => fetchData.then((res) => res)
+  const { isLoading, data } = useQuery(
+    ["listingsData", searchParams.toString()],
+    () => fetchData(searchParams).then((res) => res)
   );
 
   return (
@@ -60,4 +52,12 @@ const App = () => {
   );
 };
 
-export default Wrapper;
+const App = () => {
+  return (
+    <QueryClientProvider client={queryClient}>
+      <MainPage />
+    </QueryClientProvider>
+  );
+};
+
+export default App;

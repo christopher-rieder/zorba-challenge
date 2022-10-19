@@ -1,7 +1,8 @@
 import React from "react";
-import { Carousel, Typography } from "antd";
+import { Button, Carousel, Tooltip, Typography } from "antd";
 import "./App.css";
 import "./ListingCard.css";
+import { HeartOutlined } from "@ant-design/icons";
 
 const moneyFormatter = new Intl.NumberFormat("en-US", {
   style: "currency",
@@ -10,6 +11,21 @@ const moneyFormatter = new Intl.NumberFormat("en-US", {
 });
 
 const { Text, Title } = Typography;
+
+const HeartFab = () => {
+  return (
+    <div className="card-fab">
+      <Tooltip title="Save to favorites">
+        <Button
+          type="default"
+          shape="circle"
+          icon={<HeartOutlined />}
+          size="large"
+        />
+      </Tooltip>
+    </div>
+  );
+};
 
 const ListingCard = ({ houseData }) => {
   const { address, units } = houseData;
@@ -20,6 +36,7 @@ const ListingCard = ({ houseData }) => {
   return (
     <div className="card">
       <div className="carousel-container">
+        <HeartFab />
         <Carousel>
           {houseData.images.map((image) => (
             <div className="image-carousel">
